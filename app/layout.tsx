@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Manrope, Onest, Poppins, Rethink_Sans } from "next/font/google";
+import { GeistSans } from 'geist/font/sans';
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
-
-const inter = Inter({ subsets: ["latin"] });
-const poppins = Poppins({weight: ["400", "800", "900"], subsets: ["latin"]})
-const rethink = Rethink_Sans({subsets:["latin"]})
-const onest = Onest({subsets: ["latin"]})
-const manrope = Manrope({subsets: ["latin"]})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +20,7 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en" className="dark">
-        <body className={manrope.className}>
+        <body className={GeistSans.className}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

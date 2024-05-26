@@ -2,6 +2,7 @@ import FullLogo from "@/components/brand/full-logo";
 import { Button } from "@/components/ui/button";
 import { Plus, Film, Settings, Sparkles, HelpCircle } from 'lucide-react';
 import NavButton from "./nav-button";
+import NewProjectDialog from "@/components/projects/new-project-dialog";
 
 interface SidebarProps {
 
@@ -18,10 +19,15 @@ const Sidebar = ({}: SidebarProps) => {
           />
         </div>
         <div className="w-full flex flex-col">
-          <Button size="lg" className="flex flex-row items-center justify-start px-4">
-            <Plus className="h-6 w-6 mr-2" />
-            <span className="pb-0.5">New project</span>
-          </Button>
+          <NewProjectDialog
+            trigger={
+              <Button size="lg" className="flex flex-row items-center justify-start px-4">
+                <Plus className="h-6 w-6 mr-2" />
+                <span>New project</span>
+              </Button>
+            }
+          />
+
         </div>
         <div className="w-full flex flex-col text-muted-foreground gap-y-1">
           <NavButton

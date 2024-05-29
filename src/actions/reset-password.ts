@@ -4,7 +4,7 @@ import * as z from "zod";
 
 import { LastVerificationTokenTooRecentError } from "@/lib/tokens";
 
-import { ResetSchema } from "@/schemas";
+import { ResetSchema } from "@/schemas/auth";
 import { getUserByEmail } from "@/data/user";
 import { sendPasswordResetEmail } from "@/lib/email";
 import { generatePasswordResetToken } from "@/lib/tokens";

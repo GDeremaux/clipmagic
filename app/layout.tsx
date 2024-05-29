@@ -19,7 +19,7 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <html lang="en" className="dark">
+      <html lang="en">
         <body className={GeistSans.className}>
           <ThemeProvider
             attribute="class"

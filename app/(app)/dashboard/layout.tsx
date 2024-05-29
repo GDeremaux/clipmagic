@@ -14,7 +14,7 @@ const DashbaordLayout = ({
       <div className="flex flex-col w-full m-0"> {/* RIGHT */}
         <Navbar />
         <div className="flex flex-row justify-center h-screen pt-3 px-8 overflow-auto">
-          <div className="h-full max-w-[1200px] w-full"> {/* CENTERED CONTENT */}
+          <div className="h-full max-w-[1116px] w-full"> {/* CENTERED CONTENT */}
             {children}
           </div>
         </div>

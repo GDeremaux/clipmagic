@@ -26,7 +26,12 @@ const NewProjectDialog = ({
   trigger
 }: NewProjectDialogProps) => {
   const [projectTemplateId, setProjectTemplateId] = useState<string | undefined>();
-  const [dialogTitle, setDialogTitle] = useState<string>();
+  const projectTemplate = projectTemplateId ? projectTemplates[projectTemplateId] : undefined;
+  const formSchema = projectTemplate?.formSchema;
+
+  const [dialogTitle, setDialogTitle] = useState<string>("");
+
+  const [formValues, setFormValues] = useState();
 
   const TemplateFormComponent = projectTemplateId ? projectTemplates[projectTemplateId].formComponent : undefined;
 
@@ -53,6 +58,7 @@ const NewProjectDialog = ({
             <TemplateFormWrapper>
               <TemplateFormComponent
                 setDialogTitle={setDialogTitle}
+                setFormValues={setFormValues}
               />
             </TemplateFormWrapper>
 

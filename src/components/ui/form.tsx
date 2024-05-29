@@ -7,13 +7,44 @@ import {
   FieldPath,
   FieldValues,
   FormProvider,
+  FormProviderProps,
   useFormContext,
 } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
-const Form = FormProvider
+// modified version of the Form component
+interface FormContextProps {
+  isPending?: boolean
+}
+
+export const FormContext = React.createContext<FormContextProps>({
+  isPending: false
+})
+
+interface FormProps extends FormProviderProps {
+  children: React.ReactNode;
+  isPending?: boolean
+}
+
+const Form = ({
+  children,
+  isPending,
+  ...props
+}: FormProps) => {
+  const formContextValues = {
+    isPending
+  }
+
+  return (
+    <FormProvider {...props}>
+      <FormContext.Provider value={formContextValues}>
+        {children}
+      </FormContext.Provider>
+    </FormProvider>
+  )
+}
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,

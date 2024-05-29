@@ -1,9 +1,6 @@
 "use client";
 
-import FormError from "@/components/form-error";
-import FormSuccess from "@/components/form-success";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import TextInput from "@/components/forms/text-input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,18 +8,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { H4 } from "@/components/ui/typography";
 import { TemplateFormComponentProps, projectTemplates } from "@/data/template";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useState, useTransition } from "react";
+import { on } from "events";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const StoryTemplateForm = ({
-  setDialogTitle
+  setDialogTitle,
+  setFormValues
 }: TemplateFormComponentProps) => {
   const storyTemplate = projectTemplates.story;
   const FormSchema = storyTemplate.formSchema;
 
-  setDialogTitle(storyTemplate.dialogTitle)
+  setDialogTitle(storyTemplate.dialogTitle);
 
   const [isPending, startTransition] = useTransition();
 
@@ -34,11 +32,17 @@ const StoryTemplateForm = ({
     }
   });
 
+  const onChange = (values: z.infer<typeof FormSchema>) => {
+    startTransition(async () => {
+      setFormValues(values);
+    })
+  }
+
 	return (
     <div className="flex-grow">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit()}
+          onChange={form.handleSubmit(onChange)}
           className="space-y-6"
         >
           <div className="space-y-4">
@@ -49,8 +53,13 @@ const StoryTemplateForm = ({
                 <TabsTrigger value="subtitles">Subtitles</TabsTrigger>
                 <TabsTrigger value="background">Background</TabsTrigger>
               </TabsList>
-              <TabsContent value="story">
+              <TabsContent value="story" className="flex flex-col gap-y-4">
                 <H4>Story</H4>
+                <TextInput
+                  name="storySettings.redditLink"
+                  label="Reddit Link"
+                  placeholder="https://www.reddit.com/r/askreddit/..."
+                />
               </TabsContent>
               <TabsContent value="voice">
                 <H4>Voice (text-to-speech)</H4>

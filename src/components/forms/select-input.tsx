@@ -2,20 +2,23 @@ import { useFormContext } from "react-hook-form";
 import { FormContext, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useContext } from "react";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-interface TextInputProps {
+interface SelectInputProps {
+  children: React.ReactNode;
   name: string;
   label: string;
-  placeholder?: string;
+  placeholder: string;
   className?: string;
 }
 
-const TextInput = ({
+const SelectInput = ({
+  children,
   name,
   label,
   placeholder,
-  className
-}: TextInputProps) => {
+  className,
+}: SelectInputProps) => {
   const form = useFormContext();
   
   const { isSubmitting } = form.formState;  // If the form is submitting
@@ -28,16 +31,19 @@ const TextInput = ({
       control={form.control}
       name={name}
       disabled={isDisabled}
-      render={({field}) => (
+      render={({ field }) => (
         <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <Input
-              {...field}
-              placeholder={placeholder}
-              disabled={isPending}
-            />
-          </FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={ isPending }>
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder={placeholder} className="w-full" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {children}  {/* SelectItems */}
+            </SelectContent>
+          </Select>
           <FormMessage />
         </FormItem>
       )}
@@ -45,8 +51,4 @@ const TextInput = ({
   )
 }
 
-const helloWorld = () => {
-  console.log('Hello, World!');
-}
-
-export default TextInput;
+export default SelectInput;

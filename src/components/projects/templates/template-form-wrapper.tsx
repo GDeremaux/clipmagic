@@ -11,9 +11,12 @@ const TemplateFormWrapper = ({
   children
 }: TemplateFormWrapperProps) => {
   return (
-    <div className="flex flex-row gap-x-4">
+    <div className="flex flex-row gap-x-4 flex-grow-0">
       <div className="flex flex-col gap-y-4 justify-between w-fit h-full flex-grow">
-        {children}
+        <div className="max-h-[533px]">
+          {children}
+        </div>
+        
         <Button variant="secondary">
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh preview

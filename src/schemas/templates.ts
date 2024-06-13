@@ -4,12 +4,15 @@ import { RGBColorSchema } from "@/schemas/color";
 
 export const StoryTemplateFormSchema = z.object({
   storySettings: z.object({
-    method: z.enum(["reddit", "quora", "prompt", "script"]),
+    method: z.enum(["reddit", "quora", "prompt", "script"]).default("reddit"),
 
-    redditLink: z.string().optional(),
-    quoraLink: z.string().optional(),
-    prompt: z.string().optional(),
-    customScript: z.string().optional()
+    redditLink: z.string().default(""),
+    quoraLink: z.string().optional().default(""),
+    prompt: z.string().optional().default(""),
+    customScript: z.object({
+      title: z.string().optional().default(""),
+      script: z.string().optional().default("")
+    }).optional()
   }).refine((data) => {
     switch (data.method) {
       case "reddit":
@@ -19,51 +22,54 @@ export const StoryTemplateFormSchema = z.object({
       case "prompt":
         return data.prompt !== undefined;
       case "script":
-        return data.customScript !== undefined;
+        return data.customScript?.script !== undefined || data.customScript?.title !== undefined;
     }
   }, {
     message: "The input of the selected story method is required!"
   }),
   voiceSettings: z.object({
-    voiceId: z.string().min(4),
+    voiceId: z.string().min(4).default(""),
     advanced: z.object({
-      stability: z.number(),
-      similarity: z.number(),
-      styleExaggeration: z.number(),
-      speakerBoost: z.boolean()
+      isActive: z.boolean().default(false),
+      stability: z.number().default(0.5),
+      similarity: z.number().default(0.5),
+      styleExaggeration: z.number().default(0),
+      speakerBoost: z.boolean().default(true)
     })
   }),
   backgroundSettings: z.object({
-    videoPath: z.string()
+    fileName: z.string().default("")
   }),
   subtitlesSettings: z.object({
     text: z.object({
-      fontPath: z.string(),
-      fontWeight: z.string(),
-      isItalic: z.boolean(),
-      size: z.number(),
-      textColor: RGBColorSchema,
+      fontPath: z.string().default(""),
+      fontWeight: z.string().default(""),
+      isItalic: z.boolean().default(false),
+      size: z.string().default(""),
+      textColor: RGBColorSchema.default({ r: 255, g: 255, b: 255 }),
       stroke: z.object({
-        strokeColor: RGBColorSchema,
-        strokeWidth: z.number()
+        isActive: z.boolean().default(false),
+        color: RGBColorSchema.default({ r: 0, g: 0, b: 0 }),
+        width: z.number().default(0)
       }),
       shadow: z.object({
-        color: RGBColorSchema,
-        opacity: z.number(),
-        blurRadius: z.number(),
-        offsetX: z.number(),
-        offsetY: z.number()
+        isActive: z.boolean().default(false),
+        color: RGBColorSchema.default({ r: 0, g: 0, b: 0 }),
+        opacity: z.number().default(0),
+        blurRadius: z.number().default(0),
+        offsetX: z.number().default(0),
+        offsetY: z.number().default(0)
       })
     }),
     subtitling: z.object({
-      maxChar: z.number(),
-      maxDuration: z.number(),
-      startAdjust: z.number(),
-      endAdjust: z.number()
+      maxChar: z.number().default(0),
+      maxDuration: z.number().default(0),
+      startAdjust: z.number().default(0),
+      endAdjust: z.number().default(0)
     }),
     animation: z.object({
-      fadeInDuration: z.number(),
-      fadeOutDuration: z.number()
+      fadeInDuration: z.number().default(0),
+      fadeOutDuration: z.number().default(0)
     })
   })
 });

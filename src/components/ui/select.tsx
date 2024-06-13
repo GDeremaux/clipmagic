@@ -111,10 +111,14 @@ const SelectLabel = React.forwardRef<
 ))
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
+interface SelectItemExtraProps {
+  customItemText?: boolean
+}
+
 const SelectItem = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
+  React.ElementRef<typeof SelectPrimitive.Item> & SelectItemExtraProps,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & SelectItemExtraProps
+>(({ className, children, customItemText, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
@@ -128,8 +132,11 @@ const SelectItem = React.forwardRef<
         <Check className="h-4 w-4" />
       </SelectPrimitive.ItemIndicator>
     </span>
+    
+    {
+      customItemText ? children : <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+    }
 
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
   </SelectPrimitive.Item>
 ))
 SelectItem.displayName = SelectPrimitive.Item.displayName

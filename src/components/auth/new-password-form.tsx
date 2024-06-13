@@ -20,7 +20,7 @@ import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 
 import { useState, useTransition } from "react";
-import { newPassword } from "@/actions/new-password";
+import { newPassword } from "@/actions/auth/new-password";
 import { useSearchParams } from "next/navigation";
 
 const NewPasswordForm = () => {

@@ -1,20 +1,20 @@
 import { TriangleAlert } from "lucide-react";
 
-interface FormErrorProps {
+interface FormWarningProps {
   message?: string;
 }
 
-const FormError = ({
+const FormWarning = ({
   message
-}: FormErrorProps) => {
+}: FormWarningProps) => {
   if (!message) return null;
 
   return (
-    <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive border border-destructive/20">
+    <div className="bg-yellow-500/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-yellow-500 border border-yellow-500/15">
       <TriangleAlert className="min-h-4 min-w-4 h-4 w-4" />
       <p className="grow-0">{message}</p>
     </div>
   )
 }
 
-export default FormError;
+export default FormWarning;

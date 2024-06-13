@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FormError from "@/components/form-error";
 import FormSuccess from "../form-success";
-import register from "@/actions/register";
+import register from "@/actions/auth/register";
 
 import { useState, useTransition } from "react";
 import { start } from "repl";

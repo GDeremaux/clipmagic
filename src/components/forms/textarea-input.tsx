@@ -1,21 +1,21 @@
 import { useFormContext } from "react-hook-form";
 import { FormContext, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useContext } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
-interface TextInputProps {
+interface TextareaInputProps {
   name: string;
   label: string;
   placeholder?: string;
   className?: string;
 }
 
-const TextInput = ({
+const TextareaInput = ({
   name,
   label,
   placeholder,
   className
-}: TextInputProps) => {
+}: TextareaInputProps) => {
   const form = useFormContext();
   
   const { isSubmitting } = form.formState;  // If the form is submitting
@@ -32,10 +32,11 @@ const TextInput = ({
         <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input
+            <Textarea
               {...field}
               placeholder={placeholder}
-              disabled={isPending}
+              disabled={isSubmitting}
+              className="h-24 max-h-48"
             />
           </FormControl>
           <FormMessage />
@@ -45,8 +46,4 @@ const TextInput = ({
   )
 }
 
-const helloWorld = () => {
-  console.log('Hello, World!');
-}
-
-export default TextInput;
+export default TextareaInput;

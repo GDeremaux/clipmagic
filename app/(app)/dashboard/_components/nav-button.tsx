@@ -22,8 +22,8 @@ const NavButton = ({
 
   return (
     <Link href={href} className={cn(
-      buttonVariants({size: "lg", variant: "ghost"}),
-      `flex flex-row items-center justify-start px-4 ${isActive ? "text-foreground bg-secondary" : "text-muted-foreground"}`
+      buttonVariants({size: "lg", variant: isActive ? "secondary" : "ghost"}),
+      `flex flex-row items-center justify-start px-4 ${isActive ? "text-foreground" : "text-muted-foreground"}`
     )}>
       {
         icon && (

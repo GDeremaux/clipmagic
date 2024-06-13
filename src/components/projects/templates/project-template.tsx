@@ -1,5 +1,7 @@
+import { buttonVariants } from "@/components/ui/button";
 import { H4 } from "@/components/ui/typography";
 import { ProjectTemplate as ProjectTemplateInterface } from "@/data/template";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface ProjectTemplateProps {
@@ -19,7 +21,7 @@ const ProjectTemplate = ({
 
   return (
     <div
-      className="flex items-center space-x-4 h-28 rounded-lg border p-4 hover:bg-accent cursor-pointer"
+      className={cn(buttonVariants({variant: "outline"}), "flex items-center justify-start space-x-4 h-28 rounded-lg border p-4 cursor-pointer")}
       onClick={onClick}
     >
       <Image
@@ -30,7 +32,7 @@ const ProjectTemplate = ({
         className="object-cover rounded-sm"
       />
       <div className="flex flex-col gap-y-0.5">
-        <span className="font-bold">Stories</span>
+        <H4 className="font-bold">Stories</H4>
         <span className="text-muted-foreground">{description}</span>
       </div>
     </div>

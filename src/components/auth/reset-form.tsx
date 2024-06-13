@@ -20,7 +20,7 @@ import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 
 import { useState, useTransition } from "react";
-import { reset } from "@/actions/reset-password";
+import { reset } from "@/actions/auth/reset-password";
 
 const ResetForm = () => {
   const [isPending, startTransition] = useTransition();

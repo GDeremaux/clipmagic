@@ -16,25 +16,25 @@ import { Label } from "@/components/ui/label"
 
 // modified version of the Form component
 interface FormContextProps {
-  isPending?: boolean
+  isDisabled?: boolean
 }
 
 export const FormContext = React.createContext<FormContextProps>({
-  isPending: false
+  isDisabled: false
 })
 
 interface FormProps extends FormProviderProps {
   children: React.ReactNode;
-  isPending?: boolean
+  isDisabled?: boolean
 }
 
 const Form = ({
   children,
-  isPending,
+  isDisabled,
   ...props
 }: FormProps) => {
   const formContextValues = {
-    isPending
+    isDisabled
   }
 
   return (

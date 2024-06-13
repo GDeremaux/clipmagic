@@ -125,6 +125,36 @@ const StoryTemplateForm = ({
                 label="Choose a voice"
                 placeholder="Select a voice..."
               />
+              <InputSubcategory
+                title="Advanced settings"
+                name="voiceSettings.advanced.isActive"
+              >
+                <SliderInput
+                  name="voiceSettings.advanced.stability"
+                  label="Stability"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                />
+                <SliderInput
+                  name="voiceSettings.advanced.similarity"
+                  label="Stability"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                />
+                <SliderInput
+                  name="voiceSettings.advanced.styleExaggeration"
+                  label="Stability"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                />
+                <CheckboxInput
+                  name="voiceSettings.advanced.speakerBoost"
+                  label="Speaker boost"
+                />                                          
+              </InputSubcategory>
             </TabsContent>
             <TabsContent value="subtitles" className="space-y-4 mt-0 overflow-y-scroll px-[5px] mx-[-5px] h-full">
               <H4>Subtitles and text</H4>

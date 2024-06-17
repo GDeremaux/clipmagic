@@ -28,7 +28,7 @@ export const StoryTemplateFormSchema = z.object({
     message: "The input of the selected story method is required!"
   }),
   voiceSettings: z.object({
-    voiceId: z.string().min(4).default(""),
+    voiceId: z.string().default(""),
     advanced: z.object({
       isActive: z.boolean().default(false),
       stability: z.number().default(0.5),
@@ -42,10 +42,10 @@ export const StoryTemplateFormSchema = z.object({
   }),
   subtitlesSettings: z.object({
     text: z.object({
-      fontPath: z.string().default(""),
-      fontWeight: z.string().default(""),
+      fontPath: z.string().default("clipmagic-files/fonts/Montserrat-VariableFont_wght.ttf"),
+      fontWeight: z.string().default("700"),
       isItalic: z.boolean().default(false),
-      size: z.string().default(""),
+      size: z.string().default("24"),
       textColor: RGBColorSchema.default({ r: 255, g: 255, b: 255 }),
       stroke: z.object({
         isActive: z.boolean().default(false),
@@ -55,15 +55,15 @@ export const StoryTemplateFormSchema = z.object({
       shadow: z.object({
         isActive: z.boolean().default(false),
         color: RGBColorSchema.default({ r: 0, g: 0, b: 0 }),
-        opacity: z.number().default(0),
-        blurRadius: z.number().default(0),
-        offsetX: z.number().default(0),
-        offsetY: z.number().default(0)
+        opacity: z.number().default(80),
+        blurRadius: z.number().default(10),
+        offsetX: z.number().default(5),
+        offsetY: z.number().default(-5)
       })
     }),
     subtitling: z.object({
-      maxChar: z.number().default(0),
-      maxDuration: z.number().default(0),
+      maxChar: z.number().default(15),
+      maxDuration: z.number().default(2),
       startAdjust: z.number().default(0),
       endAdjust: z.number().default(0)
     }),

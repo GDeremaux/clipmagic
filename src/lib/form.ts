@@ -78,10 +78,9 @@ export function defaultInstance<T extends z.ZodTypeAny>(
 }
 
 export const getParsedFormValues = (
-  form: UseFormReturn,
+  formValues: any,
   schema: z.ZodObject<any>
 ) => {
-  const formValues = form.getValues();
   const defaultValues = defaultInstance(schema);
 
   const parsedValues = merge({}, defaultValues, formValues);

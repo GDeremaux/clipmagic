@@ -1,5 +1,6 @@
 "use client";
 
+import generateStoryProject from "@/actions/project/generate-story-project";
 import FormWarning from "@/components/form-warning";
 import CheckboxInput from "@/components/forms/checkbox-input";
 import ColorInput from "@/components/forms/color-input";
@@ -245,7 +246,7 @@ const StoryTemplateForm = ({
                     <SliderInput
                       name="subtitlesSettings.text.shadow.offsetX"
                       label="Offset X"
-                      min={0}
+                      min={-100}
                       max={100}
                       step={1}
                       className="w-full"
@@ -253,7 +254,7 @@ const StoryTemplateForm = ({
                     <SliderInput
                       name="subtitlesSettings.text.shadow.offsetY"
                       label="Offset Y"
-                      min={0}
+                      min={-100}
                       max={100}
                       step={1}
                       className="w-full"
@@ -322,7 +323,7 @@ const StoryTemplateForm = ({
                 label="Choose a background video"
               />
               <FormWarning message="We do not recommend using stock videos, because your video could be striked by the algorithms ! We highly encourage you to record or buy your own footage." />
-              <Button onClick={() => { console.log( getParsedFormValues(form, FormSchema) )}}>Debug (console.log) values</Button>
+              <Button onClick={async () => { console.log( await generateStoryProject(getParsedFormValues(form.getValues(), FormSchema)) )}}>Debug (console.log) values</Button>
             </TabsContent>
           </Tabs>
         </div>

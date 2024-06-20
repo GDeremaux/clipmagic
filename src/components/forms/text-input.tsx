@@ -3,7 +3,7 @@ import { FormContext, FormControl, FormField, FormItem, FormLabel, FormMessage }
 import { Input } from "@/components/ui/input";
 import { useContext } from "react";
 
-interface TextInputProps {
+interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
   placeholder?: string;
@@ -14,7 +14,8 @@ const TextInput = ({
   name,
   label,
   placeholder,
-  className
+  className,
+  ...props
 }: TextInputProps) => {
   const form = useFormContext();
   
@@ -36,6 +37,7 @@ const TextInput = ({
               {...field}
               placeholder={placeholder}
               disabled={isPending}
+              {...props}
             />
           </FormControl>
           <FormMessage />

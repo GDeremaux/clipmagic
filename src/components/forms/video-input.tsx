@@ -6,12 +6,10 @@ import TextSeparator from "@/components/text-separator";
 import { CloudUploadIcon } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Dropzone from 'react-dropzone';
-import getPresignedUrl from "@/actions/aws/s3/get-presigned-url";
 import axios, { AxiosProgressEvent } from 'axios';
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -22,6 +20,7 @@ import {
 
 import VideoPreview from "@/components/video-preview";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import uploadFile from "@/actions/aws/s3/upload-file";
 
 const uploadToS3 = async (
   acceptedFiles: File[],
@@ -29,8 +28,6 @@ const uploadToS3 = async (
   setIsProgressBarShown: Function = () => {}
 ) => {
   if (typeof acceptedFiles[0] === "undefined") return;
-
-  const { uploadUrl, key } = await getPresignedUrl(acceptedFiles[0].type);
 
   const config = {
     onUploadProgress: (progressEvent: AxiosProgressEvent) => {
@@ -42,12 +39,9 @@ const uploadToS3 = async (
     }
   };
 
-  try {
-    setIsProgressBarShown(true);
-    await axios.put(uploadUrl, acceptedFiles[0], config);
-  } catch (error) { } finally {
-    setIsProgressBarShown(false);
-  }
+  setIsProgressBarShown(true);
+  const key = await uploadFile(acceptedFiles[0], config);
+  setIsProgressBarShown(false);
 
   return key;
 }

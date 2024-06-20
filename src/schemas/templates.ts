@@ -4,31 +4,11 @@ import { RGBColorSchema } from "@/schemas/color";
 
 export const StoryTemplateFormSchema = z.object({
   storySettings: z.object({
-    method: z.enum(["reddit", "quora", "prompt", "script"]).default("reddit"),
-
-    redditLink: z.string().default(""),
-    quoraLink: z.string().optional().default(""),
-    prompt: z.string().optional().default(""),
-    customScript: z.object({
-      title: z.string().optional().default(""),
-      script: z.string().optional().default("")
-    }).optional()
-  }).refine((data) => {
-    switch (data.method) {
-      case "reddit":
-        return data.redditLink !== undefined;
-      case "quora":
-        return data.quoraLink !== undefined;
-      case "prompt":
-        return data.prompt !== undefined;
-      case "script":
-        return data.customScript?.script !== undefined || data.customScript?.title !== undefined;
-    }
-  }, {
-    message: "The input of the selected story method is required!"
+    title: z.string().optional().default(""),
+    content: z.string().optional().default("")
   }),
   voiceSettings: z.object({
-    voiceId: z.string().default(""),
+    voiceId: z.string().default("pNInz6obpgDQGcFmaJgB"),
     advanced: z.object({
       isActive: z.boolean().default(false),
       stability: z.number().default(0.5),

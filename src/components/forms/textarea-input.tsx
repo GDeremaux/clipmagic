@@ -3,7 +3,7 @@ import { FormContext, FormControl, FormField, FormItem, FormLabel, FormMessage }
 import { useContext } from "react";
 import { Textarea } from "@/components/ui/textarea";
 
-interface TextareaInputProps {
+interface TextareaInputProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   label: string;
   placeholder?: string;
@@ -14,7 +14,8 @@ const TextareaInput = ({
   name,
   label,
   placeholder,
-  className
+  className,
+  ...props
 }: TextareaInputProps) => {
   const form = useFormContext();
   
@@ -37,6 +38,7 @@ const TextareaInput = ({
               placeholder={placeholder}
               disabled={isSubmitting}
               className="h-24 max-h-48"
+              {...props}
             />
           </FormControl>
           <FormMessage />

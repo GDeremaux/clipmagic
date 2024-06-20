@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import ProjectTemplateChoice from "@/components/projects/project-template-choice";
+import ProjectTemplateChoice from "@/components/projects/template-choice";
 import { useState } from "react";
 import { projectTemplates } from "@/data/template";
 import { H3 } from "@/components/ui/typography";
-import TemplateFormWrapper from "@/components/projects/templates/template-form-wrapper";
+import TemplateFormWrapper from "@/components/templates/template-form-wrapper";
 
 interface NewProjectDialogProps {
   trigger: React.ReactNode

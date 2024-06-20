@@ -77,7 +77,7 @@ const VoiceInput = ({
 
 
   const handlePlayClick = (  // Not used yet
-    event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     url: string
   ) => {
     event.stopPropagation();
@@ -117,8 +117,8 @@ const VoiceInput = ({
                   </div>
                 </div>
               </SelectItem>
-              <div className="h-8 flex items-center hover:bg-secondary cursor-pointer flex-shrink-0 px-2 rounded-sm">
-                <Play className="h-4 w-4" onClick={(e) => {handlePlayClick(e, option.previewUrl)}} />
+              <div onClick={(e) => {handlePlayClick(e, option.previewUrl)}} className="h-8 flex items-center hover:bg-secondary cursor-pointer flex-shrink-0 px-2 rounded-sm">
+                <Play className="h-4 w-4" />
               </div>
               
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { ProjectTemplatesType, projectTemplates } from "@/data/template";
-import ProjectTemplate from "@/components/projects/templates/project-template";
+import TemplatePreview from "./template-preview";
 
 interface ProjectTemplateChoice {
   setDialogTitle: Function,
@@ -18,7 +18,7 @@ const ProjectTemplateChoice = ({
     Object.keys(projectTemplates).map((key) => {
       const template = projectTemplates[key as keyof ProjectTemplatesType];
 
-      return <ProjectTemplate
+      return <TemplatePreview
         template={template}
         setProjectTemplateId={setProjectTemplateId}
       />

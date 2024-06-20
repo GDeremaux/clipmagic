@@ -2,7 +2,7 @@ import * as z from "zod";
 
 import { StoryTemplateFormSchema } from "@/schemas/templates";
 
-import StoryTemplateForm from "@/components/projects/templates/forms/story";
+import StoryTemplateForm from "@/components/templates/forms/story";
 
 export interface TemplateFormComponentProps {
   setDialogTitle: Function;

@@ -4,15 +4,15 @@ import { ProjectTemplate as ProjectTemplateInterface } from "@/data/template";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-interface ProjectTemplateProps {
+interface TemplatePreviewProps {
   template: ProjectTemplateInterface,
   setProjectTemplateId: Function
 }
 
-const ProjectTemplate = ({
+const TemplatePreview = ({
   template,
   setProjectTemplateId
-}: ProjectTemplateProps) => {
+}: TemplatePreviewProps) => {
   const {id, name, description} = template;
 
   const onClick = () => {
@@ -39,4 +39,4 @@ const ProjectTemplate = ({
   );
 };
 
-export default ProjectTemplate;
+export default TemplatePreview;

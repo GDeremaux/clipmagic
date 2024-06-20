@@ -5,29 +5,38 @@
 import * as z from "zod";
 
 import { elevenlabs } from "@/lib/elevenlabs";
-import { getParsedFormValues } from "@/lib/form";
-import getPrompt from "./get-prompt";
+import { get } from "lodash";
+import { generateTTSAudioS3Key } from "./audio";
 
 
-const generateStoryProject = (
+const generateStoryProject = async (
   formValues: any
 ) => {
+  // Step 1: Get prompt
 
-  // Step 1: Get the prompt
+  const { title, content } = formValues.storySettings;
 
-  const prompt = getPrompt(formValues);
-  return prompt;
+  // Step 2: Generate Elevenlabs TTS with transcription
 
-  // Step 2: Generate Elevenlabs TTS
+  const titleAudio = await generateTTSAudioS3Key(formValues, title);  // AWS S3 keys
+  const contentAudio = await generateTTSAudioS3Key(formValues, content);
 
-  try {
-    const audio = elevenlabs.generate({
-      voice: formValues.voiceSettings.voiceId,
-      text: ""
-    })
-  } catch (error) {
-    console.log("Failed to generate Elevenlabs TTS audio !", error);
-  }
+  // Step 3: Generate project object
+
+  const { storySettings, subtitlesSettings, backgroundSettings } = formValues;
+  const audioSettings = {
+    title: titleAudio,
+    content: contentAudio,
+  };
+  
+  const project = {
+    storySettings,
+    subtitlesSettings,
+    backgroundSettings,
+    audioSettings,
+  };
+
+  return project;
 }
 
 export default generateStoryProject;

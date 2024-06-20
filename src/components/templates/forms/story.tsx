@@ -25,9 +25,16 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { on } from "events";
 import { revalidatePath } from "next/cache";
+import Image from "next/image";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import getScriptfromReddit from "@/actions/templates/story/get-script-from-reddit";
 
 const StoryTemplateForm = ({
   setDialogTitle,
@@ -43,7 +50,20 @@ const StoryTemplateForm = ({
     defaultValues: defaultInstance(FormSchema)
   });
 
-  const method = form.watch("storySettings.method");  // watch() is here used to dynamically change the UI and re-render
+  const applyScriptFromReddit = async () => {
+    const redditUrl = (document.getElementById('redditUrl') as HTMLInputElement).value;
+
+    const { title, content } = await getScriptfromReddit(redditUrl);
+
+    const titleInput = document.getElementById('scriptTitle') as HTMLInputElement;
+    const contentInput = document.getElementById('scriptContent') as HTMLInputElement;
+
+    try {
+      titleInput.value = title;
+      contentInput.value = content;
+    } catch (error) { }
+
+  }
 
 	return (
     <Form {...form}>
@@ -62,62 +82,52 @@ const StoryTemplateForm = ({
             </TabsList>
             <TabsContent value="story" className="space-y-4 mt-0 overflow-y-scroll px-[5px] mx-[-5px] h-full">
               <H4>Story</H4>
-
-              <SelectInput
-                name="storySettings.method"
-                label="Method"
-                placeholder="Select a method..."
-              >
-                <SelectItem value="reddit">Reddit</SelectItem>
-                <SelectItem value="quora">Quora</SelectItem>
-                <SelectItem value="prompt">Prompt</SelectItem>
-                <SelectItem value="script">Custom Script</SelectItem>
-              </SelectInput>
-
-              {
-                method === "reddit" &&
+                <div className="flex flex-row w-full gap-x-2">
+                  <Popover>
+                    <PopoverTrigger className="w-1/3 flex-shrink-0">
+                      <Button size="lg" variant="secondary" className="w-full flex flex-row gap-x-2">
+                        <Image
+                          alt="Reddit icon"
+                          src="/icons/reddit.png"
+                          width={16}
+                          height={16}
+                        />
+                        <span>From Reddit</span>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="">
+                      <form className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="redditUrl">Reddit URL</Label>
+                          <Input
+                            id="redditUrl"
+                            type="text"
+                            placeholder="https://www.reddit.com/r/AskReddit/comments/..."
+                          />
+                        </div>
+                        <Button className="w-full" type="button" onClick={async () => { await applyScriptFromReddit() }}>Get script</Button>
+                      </form>
+                    </PopoverContent>
+                  </Popover>
+                  <Button disabled size="lg" variant="secondary" className="w-1/3">
+                    From Quora (soon)
+                  </Button>
+                  <Button disabled size="lg" variant="secondary" className="w-1/3">
+                    From Prompt (soon)
+                  </Button>
+                </div>
                 <TextInput
-                  name="storySettings.redditLink"
-                  label="Reddit Link"
-                  placeholder="https://www.reddit.com/r/askreddit/..."
+                  name="storySettings.title"
+                  id="scriptTitle"
+                  label="Question"
+                  placeholder="What's the weirdest thing a penguin has said to you ?"
                 />
-              }
-
-              {
-                method === "quora" &&
-                <TextInput
-                  name="storySettings.quoraLink"
-                  label="Quora Link"
-                  placeholder="https://www.quora.com/Why-is-the-sky-blue"
-                />
-              }
-
-              {
-                method === "prompt" &&
                 <TextareaInput
-                  name="storySettings.prompt"
-                  label="AI Prompt"
-                  placeholder="Write a funny story about a clumsy penguin."
+                  name="storySettings.content"
+                  id="scriptContent"
+                  label="Answer"
+                  placeholder="In the vast frozen landscapes of Antarctica, there lived a penguin named Percy. Despite being a proud member of the penguin community,..."
                 />
-              }
-
-              {
-                method === "script" &&
-                <>
-                  <TextInput
-                    name="storySettings.customScript.title"
-                    label="Story Title"
-                    placeholder="What's the weirdest thing a penguin has said to you ?"
-                  />
-                  <TextareaInput
-                    name="storySettings.customScript.script"
-                    label="Script"
-                    placeholder="In the vast frozen landscapes of Antarctica, there lived a penguin named Percy. Despite being a proud member of the penguin community,..."
-                  />
-                </>
-
-              }
-              
             </TabsContent>
             <TabsContent value="voice" className="space-y-4 mt-0 overflow-y-scroll px-[5px] mx-[-5px] h-full">
               <H4>Voice (text-to-speech)</H4>

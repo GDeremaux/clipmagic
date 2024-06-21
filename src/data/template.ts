@@ -6,7 +6,6 @@ import StoryTemplateForm from "@/components/templates/forms/story";
 
 export interface TemplateFormComponentProps {
   setDialogTitle: Function;
-  setFormValues: Function;
 }
 
 export interface ProjectTemplate {

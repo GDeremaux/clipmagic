@@ -1,5 +1,6 @@
 import uploadFile from "@/actions/aws/s3/upload-file";
 import { elevenlabs, generateAudioWithTimestamps } from "@/lib/elevenlabs";
+import { getWordLevelTimestamps } from "@/lib/transcription";
 import { randomUUID } from "crypto";
 
 
@@ -45,13 +46,14 @@ export const generateAudioStream = async (
 };
 
 
-export const generateTTSAudioS3Key = async (
+export const generateTTSAudio = async (
   formValues: any, 
   text: string
 ) => {
   const { audioBuffer: stream, alignment } = await generateAudioStream(formValues, text);
+  const transcription = getWordLevelTimestamps(alignment);
 
   const key = await uploadFile(stream, `${randomUUID()}.mp3`);  // Upload audio to S3
 
-  return { key, alignment };  // Return S3 key
+  return { key, transcription };  // Return S3 key
 };

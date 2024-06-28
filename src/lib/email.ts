@@ -8,7 +8,7 @@ export const sendPasswordResetEmail = async (
   email: string,
   token: string
 ) => {
-  const resetLink = `${domain}/new-password?token=${token}`;
+  const resetLink = `https://clipmagic-eight.vercel.app/new-password?token=${token}`;
 
   await resend.emails.send({
     from: "Clipmagic <verify@clipmagic.io>",
@@ -22,7 +22,7 @@ export const sendVerificationEmail = async (
   email: string,
   token: string
 ) => {
-  const confirmLink = `${domain}/verify-email?token=${token}`;
+  const confirmLink = `https://clipmagic-eight.vercel.app/verify-email?token=${token}`;
 
   await resend.emails.send({
     from: "Clipmagic <verify@clipmagic.io>",

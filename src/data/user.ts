@@ -48,14 +48,19 @@ export const getUserCreditsById = async (id: string) => {
 }
 
 export const removeCreditsFromUser = async (id: string, credits: number) => {
-  await db.user.update({
-    where: {
-      id
-    },
-    data: {
-      credits: {
-        decrement: credits
+  console.log(id, credits);
+  try {
+    await db.user.update({
+      where: {
+        id
+      },
+      data: {
+        credits: {
+          decrement: credits
+        }
       }
-    }
-  });
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }

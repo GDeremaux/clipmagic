@@ -1,7 +1,5 @@
-import { createContext, useContext } from "react";
-import StoryPropsSchema from "../compositions/story/story-props-schema";
-
-export const InputContext = createContext<any>(undefined);
+import { useContext } from "react";
+import InputContext from "../compositions/story/components/input-context";
 
 export const useInputContext = () => {
   const context = useContext(InputContext);

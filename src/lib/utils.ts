@@ -11,3 +11,14 @@ export function objMap(
 ) {
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, func(v)]));
 }
+
+export const removeDuplicates = (arr: any[]) => {
+  let uniqueArray: any[] = [];
+  arr.forEach((elem) => {
+    if (!uniqueArray.includes(elem)) {
+      uniqueArray.push(elem);
+    }
+  });
+
+  return uniqueArray;
+}

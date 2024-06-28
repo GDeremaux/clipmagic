@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown, Play } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import SelectInput from "./select-input";
+import SelectInput from "../select-input";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../ui/badge";
 
 
 const ELEVENLABS_VOICES_API = "https://api.elevenlabs.io/v1/voices";
@@ -31,12 +31,12 @@ const getOptions = async () => {
 
     return options;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
 
 
-interface VoiceInputProps {
+interface ElevenlabsVoiceInputProps {
   name: string;
   label: string;
   placeholder?: string;
@@ -44,12 +44,12 @@ interface VoiceInputProps {
 }
 
 
-const VoiceInput = ({
+const ElevenlabsVoiceInput = ({
   name,
   label,
   placeholder = "Select a voice",
   className
-}: VoiceInputProps) => {
+}: ElevenlabsVoiceInputProps) => {
   const form = useFormContext();
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -88,7 +88,7 @@ const VoiceInput = ({
   
   return (
     <SelectInput
-      {...{ name, label, placeholder, className }}
+      {...{ name: `${name}.elevenlabsVoiceId`, label, placeholder, className }}
     >
       {
         options.map((option: any) => {  // For each voice in options
@@ -130,4 +130,4 @@ const VoiceInput = ({
   )
 }
 
-export default VoiceInput;
+export default ElevenlabsVoiceInput;

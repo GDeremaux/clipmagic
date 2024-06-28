@@ -72,8 +72,8 @@ export const getWordLevelTimestamps = (alignment: any) => {
 
       currentWord = {
         word: "",
-        start: 0,
-        end: 0,
+        start: character.start,
+        end: character.end,
         characters: []
       };
     } else {
@@ -92,14 +92,28 @@ export const getWordLevelTimestamps = (alignment: any) => {
   return transcription;
 };
 
-export const getSentenceLevelTimestamps = (
-  alignment: any,
+interface GetSentenceLevelTimestampsProps {
   maxLength: number,
   maxDuration: number,
-  startAdjust: number = 0,
-  endAdjust: number = 0
-) => {
-  const transcription = getWordLevelTimestamps(alignment);
+  startAdjust: number,
+  endAdjust: number,
+  alignment?: any,
+  wordLevelTranscription?: Transcription
+}
+
+export const getSentenceLevelTimestamps = ({
+  alignment,
+  wordLevelTranscription,
+  maxLength,
+  maxDuration,
+  startAdjust = 0,
+  endAdjust = 0
+}: GetSentenceLevelTimestampsProps) => {
+  if (!wordLevelTranscription && !alignment) {
+    throw new Error("Either alignment or wordLevelTranscription must be provided");
+  }
+
+  const transcription = wordLevelTranscription || getWordLevelTimestamps(alignment);
 
   let currentSentence: Sentence = {
     sentence: "",
@@ -122,8 +136,8 @@ export const getSentenceLevelTimestamps = (
       currentSentence = {
         sentence: "",
         start: word.start,
-        end: 0,
-        words: [word]
+        end: word.end,
+        words: []
       };
 
     }
@@ -133,6 +147,28 @@ export const getSentenceLevelTimestamps = (
   }
 
   pushSentence();
+  console.log(transcription);
 
   return transcription;
+}
+
+export const awsTranscriptionToWordLevelTranscription = (transcription: any): Transcription => {
+  const items = transcription.results.items;
+
+  const words = items.map((item: any) => {
+    return {
+      word: item.alternatives[0].content,
+      start: item.start_time,
+      end: item.end_time,
+      characters: []
+    }
+  })
+
+  const wordLeveTranscription = {
+    characters: [],
+    words,
+    sentences: []
+  }
+
+  return wordLeveTranscription;
 }

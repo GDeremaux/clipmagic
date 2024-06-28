@@ -4,10 +4,15 @@ import Google from "next-auth/providers/google";
 import type { NextAuthConfig } from "next-auth";
 
 import { LoginSchema } from "@/schemas/auth";
-import { getUserByEmail, getUserById } from "@/data/user";
+import { getUserCreditsById, getUserByEmail, getUserById } from "@/data/user";
 
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
+import { AdapterUser } from "next-auth/adapters";
+
+interface ExtendedUser extends AdapterUser {
+  credits: number;
+}
  
 export default {
   providers: [
@@ -20,25 +25,25 @@ export default {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     Credentials({async authorize(credentials) {
-    const validatedFields = LoginSchema.safeParse(credentials);
+      const validatedFields = LoginSchema.safeParse(credentials);
 
-    if (validatedFields.success) {
-      const { email, password } = validatedFields.data;
+      if (validatedFields.success) {
+        const { email, password } = validatedFields.data;
 
-      const user = await getUserByEmail(email);
+        const user = await getUserByEmail(email);
 
-      if (!user || !user.password) return undefined;
+        if (!user || !user.password) return undefined;
 
-      const passwordsMatch = await bcrypt.compare(
-        password,
-        user.password
-      )
+        const passwordsMatch = await bcrypt.compare(
+          password,
+          user.password
+        )
 
-      if (passwordsMatch) return user as any;
-      
-      return undefined;
-    }
-  }})],
+        if (passwordsMatch) return user as any;
+        
+        return undefined;
+      }
+    }})],
   pages: {
     signIn: "/login",
     error: "/login"
@@ -67,7 +72,13 @@ export default {
     },
     async session({ token, session }) {
       if (token.sub && session.user) {
-        session.user.id = token.sub;
+        const extendedUser = session.user as ExtendedUser;
+        extendedUser.id = token.sub;
+
+        const credits = await getUserCreditsById(token.sub);
+        if (credits && credits !== null) extendedUser.credits = credits.credits;
+
+        return { ...session, user: extendedUser}
       }
 
       return session;

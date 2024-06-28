@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Film, Settings, Sparkles, HelpCircle } from 'lucide-react';
 import NavButton from "./nav-button";
 import NewProjectDialog from "@/components/projects/new-project-dialog";
+import CreditsInfo from "./credits-info";
 
 interface SidebarProps {
 
@@ -43,6 +44,7 @@ const Sidebar = ({}: SidebarProps) => {
         </div> 
       </div>
       <div className="flex flex-col gap-y-6">
+        <CreditsInfo />
         <div className="w-full flex flex-col text-muted-foreground gap-y-1">
           <NavButton
             text="Upgrade to Pro"

@@ -16,7 +16,6 @@ const ProjectsPage = () => {
             </Button>
           }
         />
-
       </div>
     </div>
   )

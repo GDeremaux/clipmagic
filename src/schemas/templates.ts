@@ -8,8 +8,12 @@ export const StoryTemplateFormSchema = z.object({
     content: z.string().optional().default("")
   }),
   voiceSettings: z.object({
-    voiceId: z.string().default("pNInz6obpgDQGcFmaJgB"),
+    service: z.string().default("polly"),
+    languageCode: z.string().default("en-US"),
+    elevenlabsVoiceId: z.string().default("pNInz6obpgDQGcFmaJgB"),
+    pollyVoiceId: z.string().default("Matthew"),
     advanced: z.object({
+      speed: z.number().default(1.2),
       isActive: z.boolean().default(false),
       stability: z.number().default(0.5),
       similarity: z.number().default(0.5),
@@ -38,7 +42,7 @@ export const StoryTemplateFormSchema = z.object({
         opacity: z.number().default(80),
         blurRadius: z.number().default(10),
         offsetX: z.number().default(5),
-        offsetY: z.number().default(-5)
+        offsetY: z.number().default(5)
       })
     }),
     subtitling: z.object({

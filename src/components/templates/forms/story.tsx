@@ -10,8 +10,6 @@ import SelectInput from "@/components/forms/select-input";
 import SliderInput from "@/components/forms/slider-input";
 import TextInput from "@/components/forms/text-input";
 import TextareaInput from "@/components/forms/textarea-input";
-import VideoInput from "@/components/forms/video-input";
-import VoiceInput from "@/components/forms/voice-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,27 +17,25 @@ import { SelectItem } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { H4 } from "@/components/ui/typography";
 import { TemplateFormComponentProps, projectTemplates } from "@/data/template";
-import { defaultInstance, getParsedFormValues } from "@/lib/form";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { on } from "events";
-import { revalidatePath } from "next/cache";
 import Image from "next/image";
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useFormContext } from "react-hook-form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import getScriptfromReddit from "@/actions/templates/story/get-script-from-reddit";
+import ElevenlabsVoiceInput from "@/components/forms/voice-input/elevenlabs-voice-input";
+import VoiceInput from "@/components/forms/voice-input";
+import VideoInput from "@/components/forms/video-input";
 
 const StoryTemplateForm = ({
   setDialogTitle
 }: TemplateFormComponentProps) => {
   const storyTemplate = projectTemplates.story;
   const FormSchema = storyTemplate.formSchema;
+
+  const form = useFormContext();
 
   setDialogTitle(storyTemplate.dialogTitle);
 
@@ -48,15 +44,11 @@ const StoryTemplateForm = ({
 
     const { title, content } = await getScriptfromReddit(redditUrl);
 
-    const titleInput = document.getElementById('scriptTitle') as HTMLInputElement;
-    const contentInput = document.getElementById('scriptContent') as HTMLInputElement;
+    form.setValue("storySettings.title", title);
+    form.setValue("storySettings.content", content);
+  };
 
-    try {
-      titleInput.value = title;
-      contentInput.value = content;
-    } catch (error) { }
-
-  }
+  const voiceMethod = form.watch("voiceSettings.method");
 
 	return (
     <div className="space-y-4 max-h-[533px]">
@@ -118,41 +110,7 @@ const StoryTemplateForm = ({
         </TabsContent>
         <TabsContent value="voice" className="space-y-4 mt-0 overflow-y-scroll px-[5px] mx-[-5px] h-full">
           <H4>Voice (text-to-speech)</H4>
-          <VoiceInput
-            name="voiceSettings.voiceId"
-            label="Choose a voice"
-            placeholder="Select a voice..."
-          />
-          <InputSubcategory
-            title="Advanced settings"
-            name="voiceSettings.advanced.isActive"
-          >
-            <SliderInput
-              name="voiceSettings.advanced.stability"
-              label="Stability"
-              min={0}
-              max={1}
-              step={0.01}
-            />
-            <SliderInput
-              name="voiceSettings.advanced.similarity"
-              label="Stability"
-              min={0}
-              max={1}
-              step={0.01}
-            />
-            <SliderInput
-              name="voiceSettings.advanced.styleExaggeration"
-              label="Stability"
-              min={0}
-              max={1}
-              step={0.01}
-            />
-            <CheckboxInput
-              name="voiceSettings.advanced.speakerBoost"
-              label="Speaker boost"
-            />                                          
-          </InputSubcategory>
+          <VoiceInput name="voiceSettings" />
         </TabsContent>
         <TabsContent value="subtitles" className="space-y-4 mt-0 overflow-y-scroll px-[5px] mx-[-5px] h-full">
           <H4>Subtitles and text</H4>

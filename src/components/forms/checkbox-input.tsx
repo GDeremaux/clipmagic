@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { FormContext, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useContext } from "react";
+import { MouseEventHandler, useContext } from "react";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "../ui/checkbox";
 
@@ -23,9 +23,7 @@ const CheckboxInput = ({
 
   const isPending = isSubmitting || isDisabled;  // Is this input pending ? (just for the front-end)
 
-  const handleItemClick = (event: React.MouseEvent<HTMLInputElement>) => {
-    event.stopPropagation();
-  }
+  const handleItemClick = (event: React.MouseEvent<HTMLDivElement>) => {}
   
   return (
     <FormField

@@ -1,21 +1,36 @@
 import * as z from 'zod';
-import { RGBColorSchema } from '../../schemas/color';
+import { RGBColorSchema } from '../color';
 
-const StoryPropsSchema = z.object({
+export const storyInputSchema = z.object({
   storySettings: z.object({
     title: z.string().optional().default(""),
     content: z.string().optional().default("")
   }),
+  voiceSettings: z.object({
+    service: z.string().default("polly"),
+    languageCode: z.string().default("en-US"),
+    elevenlabsVoiceId: z.string().default("pNInz6obpgDQGcFmaJgB"),
+    pollyVoiceId: z.string().default("Matthew"),
+    advanced: z.object({
+      speed: z.number().default(1.2),
+      isActive: z.boolean().default(false),
+      stability: z.number().default(0.5),
+      similarity: z.number().default(0.5),
+      styleExaggeration: z.number().default(0),
+      speakerBoost: z.boolean().default(true)
+    })
+  }),
   audio: z.object({
     title: z.object({
       key: z.string().default(""),
-      transcription: z.unknown()
+      transcription: z.unknown(),
+      duration: z.number()
     }),
     content: z.object({
       key: z.string().default(""),
-      transcription: z.unknown()
+      transcription: z.unknown(),
+      duration: z.number()
     })
-
   }),
   backgroundSettings: z.object({
     fileName: z.string().default("")
@@ -51,8 +66,16 @@ const StoryPropsSchema = z.object({
       fadeInDuration: z.number().default(0),
       fadeOutDuration: z.number().default(0)
     })
-  }),
-  formValues: z.unknown()
+  })
 });
 
-export default StoryPropsSchema;
+export const storyProjectSchema = z.object({ 
+  input: storyInputSchema,
+  formValues: z.unknown(),
+  videoConfig: z.object({
+    fps: z.number().default(30),
+    durationInFrames: z.number().default(30),
+    width: z.number().default(1920),
+    height: z.number().default(1080),
+  })
+});

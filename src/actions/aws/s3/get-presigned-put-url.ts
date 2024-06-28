@@ -1,6 +1,6 @@
 "use server";
 
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";  // Import the S3 client and PutObjectCommand
+import { PutObjectCommand } from "@aws-sdk/client-s3";  // Import the S3 client and PutObjectCommand
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";  // Import the presigner
 import { randomUUID } from "crypto";
 import { s3 } from "@/lib/aws/s3"

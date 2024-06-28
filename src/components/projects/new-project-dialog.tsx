@@ -13,6 +13,8 @@ import { projectTemplates } from "@/data/template";
 import { H3 } from "@/components/ui/typography";
 import TemplateFormWrapper from "@/components/projects/template-form-wrapper";
 import ProjectContext from "./project-context";
+import defaultProject from "@/remotion/compositions/story/default-project";
+import RenderStep from "./render-step";
 
 interface NewProjectDialogProps {
   trigger: React.ReactNode
@@ -21,12 +23,12 @@ interface NewProjectDialogProps {
 const NewProjectDialog = ({
   trigger
 }: NewProjectDialogProps) => {
-  const [projectTemplateId, setProjectTemplateId] = useState<string | undefined>();
+  const [projectTemplateId, setProjectTemplateId] = useState<string>("");
 
   const [dialogTitle, setDialogTitle] = useState<string>("");
-  const [project, setProject] = useState<any>({});
+  const [project, setProject] = useState<any>(defaultProject);
 
-  const TemplateFormComponent = projectTemplateId ? projectTemplates[projectTemplateId].formComponent : undefined;
+  const TemplateFormComponent = projectTemplateId ? projectTemplates[projectTemplateId]?.formComponent : undefined;
 
   return (
     <Dialog>
@@ -39,21 +41,31 @@ const NewProjectDialog = ({
             <DialogTitle><H3 className="mb-2">{dialogTitle}</H3></DialogTitle>
           </DialogHeader>
           {
-            projectTemplateId === undefined && 
+            projectTemplateId === "" && 
               <ProjectTemplateChoice
                 setDialogTitle={setDialogTitle}
                 setProjectTemplateId={setProjectTemplateId}
               />
           }
           {
-            projectTemplateId &&
+            projectTemplateId !== "" &&
+            projectTemplateId !== "render" &&
             projectTemplates[projectTemplateId] &&
             TemplateFormComponent &&
-              <TemplateFormWrapper>
+              <TemplateFormWrapper
+                setProjectTemplateId={setProjectTemplateId}
+              >
                 <TemplateFormComponent
                   setDialogTitle={setDialogTitle}
                 />
               </TemplateFormWrapper>
+
+          }
+          {
+            projectTemplateId === "render" &&
+              <RenderStep
+                setDialogTitle={setDialogTitle}
+              />
 
           }
         </ProjectContext.Provider>

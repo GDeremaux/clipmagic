@@ -16,7 +16,7 @@
       --card: 0 0% 100%;
       --card-foreground: 0 0% 3.9%;
       --border: rgba(0, 0, 0, 0.08);
-      --border-accent: rgba(0, 0, 0, 0.18);
+      --border-accent: rgba(0, 0, 0, 0.2);
       --input: 0 0% 89.8%;
       --primary: 0 0% 9%;
       --primary-foreground: 0 0% 98%;
@@ -40,7 +40,7 @@
       --card: 255 6.67% 11.76%;
       --card-foreground: 0 0% 98%;
       --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(255, 255, 255, 0.18);
+      --border-accent: rgba(255, 255, 255, 0.2);
       --input: 260 3.16% 18.63%;
       --primary: 0 0% 98%;
       --primary-foreground: 0 0% 9%;

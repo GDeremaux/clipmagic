@@ -1,11 +1,17 @@
 import axios from "axios";
-import getPresignedPutUrl from "./get-presigned-put-url";
+import getPresignedPutUrl from "../../../actions/aws/s3/get-presigned-put-url";
 
-const uploadFile = async (
-  file: File | Buffer,
-  fileName?: string,
-  axiosConfig?: any,
-) => {
+interface UploadFileProps {
+  file: File | Buffer;
+  fileName?: string;
+  axiosConfig?: any;
+}
+
+const uploadFile = async ({
+  file,
+  fileName,
+  axiosConfig,
+}: UploadFileProps) => {
   let fileExtension = "";
 
   if (fileName) {

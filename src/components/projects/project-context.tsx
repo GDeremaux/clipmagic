@@ -1,3 +1,4 @@
+import defaultProject from "@/remotion/compositions/story/default-project";
 import { createContext } from "react";
 
 export interface ProjectContextValue {

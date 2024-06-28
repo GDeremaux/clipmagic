@@ -1,8 +1,10 @@
+"use server";
+
 import { db } from "@/lib/db";
 
 export const getUserByEmail = async (email: string) => {
   try {
-    const user = db.user.findUnique({
+    const user = await db.user.findUnique({
       where:  {
         email
       }
@@ -16,7 +18,7 @@ export const getUserByEmail = async (email: string) => {
 
 export const getUserById = async (id: string) => {
   try {
-    const user = db.user.findUnique({
+    const user = await db.user.findUnique({
       where:  {
         id
       }
@@ -26,4 +28,34 @@ export const getUserById = async (id: string) => {
   } catch {
     return null;
   }
+}
+
+export const getUserCreditsById = async (id: string) => {
+  try {
+    const user = await db.user.findUnique({
+      where:  {
+        id
+      },
+      select: {
+        credits: true
+      }
+    })
+
+    return user;
+  } catch {
+    return null;
+  }
+}
+
+export const removeCreditsFromUser = async (id: string, credits: number) => {
+  await db.user.update({
+    where: {
+      id
+    },
+    data: {
+      credits: {
+        decrement: credits
+      }
+    }
+  });
 }

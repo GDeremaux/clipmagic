@@ -18,6 +18,7 @@ const SelectInput = ({
   label,
   placeholder,
   className,
+  ...props
 }: SelectInputProps) => {
   const form = useFormContext();
   

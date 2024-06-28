@@ -1,7 +1,17 @@
 import React from "react";
-import { Composition } from "remotion";
-import { StoryComposition } from "./compositions/story/Composition";
-import defaultProps from "./compositions/story/default-props";
+import * as z from "zod";
+import { CalculateMetadataFunction, Composition } from "remotion";
+import { StoryComposition } from "./compositions/story";
+import defaultProject from "./compositions/story/default-project";
+import { storyProjectSchema } from "./schemas/projects/story";
+
+const calculateStoryMetadata: CalculateMetadataFunction<z.infer<typeof storyProjectSchema>> = ({
+  props,
+  defaultProps,
+  abortSignal,
+}) => {
+  return props.videoConfig;
+};
  
 export const RemotionRoot: React.FC = () => {
   return (
@@ -9,11 +19,9 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="StoryTemplate"
         component={StoryComposition}
-        durationInFrames={60}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={defaultProps}
+        defaultProps={defaultProject}
+        schema={storyProjectSchema}
+        calculateMetadata={calculateStoryMetadata}
       />
     </>
   );

@@ -20,7 +20,7 @@ import {
 
 import VideoPreview from "@/components/video-preview";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import uploadFile from "@/actions/aws/s3/upload-file";
+import uploadFile from "@/lib/aws/s3/upload-file";
 
 const uploadToS3 = async (
   acceptedFiles: File[],
@@ -40,7 +40,7 @@ const uploadToS3 = async (
   };
 
   setIsProgressBarShown(true);
-  const key = await uploadFile(acceptedFiles[0], config);
+  const key = await uploadFile({file: acceptedFiles[0], axiosConfig: config});
   setIsProgressBarShown(false);
 
   return key;
@@ -158,7 +158,7 @@ const VideoInput = ({
                     {gameplays[selectedCategory].map((fileName) => (
                       <CarouselItem key={fileName} className="basis-1/3">
                           <VideoPreview
-                            videoURL={`https://d2zvj5k63ic615.cloudfront.net/${fileName}`}
+                            videoURL={`https://cdn.clipmagic.io/${fileName}`}
                             className={cn(
                               buttonVariants({variant: "secondary"}),
                               "rounded-sm h-[90px] w-full border p-0 cursor-pointer",

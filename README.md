@@ -16,12 +16,6 @@ Several templates:
   - AI Stories
   - more soon
 
-## Tech Stack
-
-- NextJS
-- [Remotion](https://www.remotion.dev/) (_Make videos programmatically._)
-- TailwindCSS
-
 ## Installation
 
 ```bash
@@ -35,3 +29,9 @@ npm install
 ```bash
 npm start
 ```
+
+## Tech Stack
+
+- NextJS
+- [Remotion](https://www.remotion.dev/) (_Make videos programmatically._)
+- TailwindCSS

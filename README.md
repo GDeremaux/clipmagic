@@ -2,6 +2,9 @@
 <img src="https://raw.githubusercontent.com/Gustqve/clipmagic/refs/heads/main/public/brand/full_logo_dark.svg?token=GHSAT0AAAAAADPQIWFN3LP6OWUQ5TK2G5UO2MMKZZQ" width="300">
 </div>
 <br>
+
+# Clipmagic
+
 Clipmagic is an automated and simplified short-form video editor, which works directly in your browser !
 
 ## Preview
